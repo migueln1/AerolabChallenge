@@ -1,27 +1,21 @@
-import { useState } from "react"
+import { Suspense } from "react";
+import PaginationControls from "../Common/PaginationControls";
 import FilterControls from "./FilterProducts";
+import Preloader from "./Preloader";
 import ProductList from "./ProductList";
 
 const Products = () => {
     
-    const paginationInitialData = {
-        showing: 16,
-        page: 1
-    }
-
-    const [pagination, setPagination] = 
-        useState<typeof paginationInitialData>(paginationInitialData);
-    
     return(
         <div className="md:container px-2">
-            {/* TopControls */}
-            <div className="py-5 flex items-center justify-between md:flex-nowrap gap-3 text-slate-500">
-                {/* ProductPagination */}
-                <span>{pagination.showing} of 32 products</span>
+            <div className="py-5 flex flex-col md:flex-row items-center justify-between md:flex-nowrap gap-3 text-slate-500">
+                <PaginationControls/>
                 <FilterControls/>
             </div>
-            {/* ProductList */}
-            <ProductList/>
+            <Suspense fallback="Loading products">
+                <Preloader/>
+                <ProductList/>
+            </Suspense>
         </div>
     )
 }

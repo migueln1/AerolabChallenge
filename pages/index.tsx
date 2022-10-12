@@ -1,10 +1,9 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
-import HeadNav from '../components/HeadNav/HeadNav'
+import HeadNav from '../components/Common/HeadNav'
 import Products from '../components/Products/Products'
-import MainBanner from '../components/MainBanner'
+import MainBanner from '../components/Common/MainBanner'
 const Home: NextPage = () => {
-  
   return (
     <div>
       <Head>

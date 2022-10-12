@@ -1,48 +1,33 @@
 import { useAtom } from "jotai";
 import Image from "next/image";
-import { useEffect, useState } from "react";
-import { Product, ProductService } from "../../domain/services/ProductService";
-import { Filter, filterByAtom } from "../../domain/stores/FilterStore";
+import { useEffect } from "react";
+// import { useEffect } from "react";
+// import { useEffect } from "react";
+// import { ProductService } from "../../domain/services/ProductService";
+// import { pageItemsAtom, paginationAtom } from "../../domain/stores/PaginationStore";
+import { Product, productPagedAtom, productsAtom, productsSortedAtom } from "../../domain/stores/ProductStore";
 
 type ProductListProps = {
     productList: Product[]
 }
 const ProductList = () => {
-    const [filterBy,] = useAtom(filterByAtom);
-    const [products, setProducts] = useState<Product[]>([]);
-    const [productList, setProductList] = useState<Product[]>([]);
-    const productService = new ProductService();
+    const [products] = useAtom(productsAtom)
+    const [productList, setProductList] = useAtom(productsSortedAtom);
+    const [pagedProducts,] = useAtom(productPagedAtom);
 
     useEffect(()=>{
-        const loadProducts = async () => {
-            const rawProducts = await productService.getProducts();
-            setProducts(rawProducts)
-            setProductList([...rawProducts].slice(0, 16))
-        }
-        loadProducts()
-    },[])
-    useEffect(()=>{
-        switch (filterBy) {
-            case Filter.LowestPrice:
-                setProductList([...products].sort((a,b) => a.cost - b.cost).slice(0,16))
-                break;
-            case Filter.HighestPrice:
-                setProductList([...products].sort((a,b) => b.cost - a.cost).slice(0,16))
-                break;
-            case Filter.Recent:
-                setProductList([...products].slice(0,16))
-                break;
-        }
-    }, [filterBy])
-    return(<ProductListView productList={productList}/>)
+        setProductList(products)
+    },[products])
+
+    return(<ProductListView productList={pagedProducts}/>)
 }
 const ProductListView = ({productList}:ProductListProps) => {
     return(
-        <div className="grid grid-cols-4 gap-4">
+        <div className="grid md:grid-cols-4 gap-4">
             {productList.length > 0 && productList.map(p => (
                 <div key={`product-${p._id}`} className="flex flex-col border 
                 border-slate-100 shadow-xl rounded-lg p-3 md:p-5">
-                    <Image className="al" src={p.img.url} width={252} height={182}></Image>
+                    <Image className="al" src={p.img.url} width={252} height={182} quality={100}></Image>
                     <div className="flex flex-col">
                         <span>{p.category}</span>
                         <span>{p.name}</span>
