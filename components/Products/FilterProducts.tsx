@@ -1,12 +1,13 @@
 import { useAtom } from "jotai";
-import { Filter } from "../../domain/stores/FilterStore";
+import { Filter, filterAtom } from "../../domain/stores/FilterStore";
 import { currentFilterAtom } from "../../domain/stores/ProductStore";
 
 const FilterControls = () => {
     const btnStyle = "py-[0.555rem] px-4 rounded-full transition-all ease-out duration-150";
     const btnActive = "text-white bg-cyan-300";
     const btnSleep = "text-slate-400 bg-slate-200 hover:text-slate-600";
-    const [currentFilter,setFilterBy] = useAtom(currentFilterAtom)
+    const [currentFilter] = useAtom(filterAtom)
+    const [, setFilterBy] = useAtom(currentFilterAtom)
     return(
         <div className="flex flex-row items-center gap-x-3">
             <span className='select-none'>Sort by:</span>

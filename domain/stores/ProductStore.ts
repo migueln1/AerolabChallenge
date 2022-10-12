@@ -1,8 +1,6 @@
-import { atom, WritableAtom } from "jotai";
-import { atomWithStorage } from "jotai/utils";
-import { BehaviorSubject, filter } from "rxjs";
+import { atom } from "jotai";
 import { ProductService } from "../services/ProductService";
-import { filterOb } from "./FilterStore";
+import { filterAtom } from "./FilterStore";
 
 export type Product = {
     _id: string,
@@ -34,13 +32,13 @@ const productsAtom = atom(async () =>
     await productService.getProducts()
 )
 
-const currentFilterAtom = atom(Filter.Recent, async (get, set, payload) => {
-    const _products:Product[] = get(productsAtom);
-    if(payload === Filter.Recent) return set(productsSortedAtom, [..._products]);
-    const _filtered: Product[] = payload == Filter.LowestPrice ? 
-        [..._products].sort((a,b) => a.cost - b.cost) :
-        [..._products].sort((a,b) => b.cost - a.cost);
+const currentFilterAtom = atom((get) => get(filterAtom), async (get, set, payload) => {
+    const _products:Product[] = [...get(productsAtom)];
+    const _filtered: Product[] = payload === Filter.LowestPrice ? 
+        _products.sort((a,b) => a.cost - b.cost) : payload === Filter.HighestPrice ?
+        _products.sort((a,b) => b.cost - a.cost) : _products;
         set(productsSortedAtom, _filtered)
+        set(filterAtom, payload)
 })
 
 const productsSortedAtom = atom([], (get,set,payload) => {
