@@ -1,6 +1,7 @@
 import { atom } from "jotai";
 import { ProductService } from "../services/ProductService";
 import { filterAtom } from "./FilterStore";
+import { paginationAtom } from "./PaginationStore";
 
 export type Product = {
     _id: string,
@@ -15,8 +16,8 @@ type ProductImage = {
 }
 
 type ProductPagination = {
-    page: number,
-    rowsPerPage: number
+    page?: number,
+    rowsPerPage?: number
 }
 const pagInitialValues = { page:1, rowsPerPage:16 }
 enum Filter {
@@ -24,9 +25,11 @@ enum Filter {
     LowestPrice,
     HighestPrice
 }
-const paginationAtom = atom(pagInitialValues, (get, set, payload) => {
-    set(paginationAtom,payload)
-})
+// const paginationAtom = atom(pagInitialValues, (get, set, payload: ProductPagination) => {
+//     const current = get(paginationAtom);
+//     const newe= {...current, ...payload};
+//     set(paginationAtom, newe)
+// })
 const productService = new ProductService();
 const productsAtom = atom(async () => 
     await productService.getProducts()
@@ -38,7 +41,11 @@ const currentFilterAtom = atom((get) => get(filterAtom), async (get, set, payloa
         _products.sort((a,b) => a.cost - b.cost) : payload === Filter.HighestPrice ?
         _products.sort((a,b) => b.cost - a.cost) : _products;
         set(productsSortedAtom, _filtered)
+        const { rowsPerPage } = get(paginationAtom);
+        set(productPagedAtom, [..._filtered].slice(0, rowsPerPage!))
+        // set(productPagedAtom, [..._filtered].slice((page!-1) * rowsPerPage!, page! * rowsPerPage!))
         set(filterAtom, payload)
+        set(paginationAtom, { page: 1 })
 })
 
 const productsSortedAtom = atom([], (get,set,payload) => {
@@ -47,13 +54,12 @@ const productsSortedAtom = atom([], (get,set,payload) => {
 
 const productPaginationAtom = atom(null, (get, set, payload: ProductPagination) => {
     const _products: Product[] = [...get(productsSortedAtom)];
-    const page = payload.page ?? pagInitialValues.page;
-    const rowsPerPage = payload.rowsPerPage ?? pagInitialValues.rowsPerPage;
-    _products.slice((page-1) * rowsPerPage, page * rowsPerPage)
-    set(productPagedAtom, _products)
+    const pag = get(paginationAtom);
+    set(productPagedAtom, [..._products].slice((payload.page!-1) * pag.rowsPerPage!, payload.page! * pag.rowsPerPage!))
+    set(paginationAtom, payload)
 })
-const productPagedAtom = atom((get)=>get(productsSortedAtom).slice(0, pagInitialValues.rowsPerPage), (get, set, payload) => {
+const productPagedAtom = atom([], (get, set, payload) => {
     set(productPagedAtom, payload)
 })
 
-export { productsAtom, currentFilterAtom, productsSortedAtom, productPagedAtom }
+export { productsAtom, currentFilterAtom, productsSortedAtom, productPagedAtom, productPaginationAtom }
