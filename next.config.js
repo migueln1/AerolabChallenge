@@ -2,7 +2,6 @@
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
-  distDir: 'build',
   images: {
     domains: ["coding-challenge-api.aerolab.co"]
   }
