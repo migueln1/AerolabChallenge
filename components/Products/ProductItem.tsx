@@ -1,5 +1,7 @@
 import { Product } from "../../domain/stores/ProductStore"
 import Image from "next/image";
+import { userAtom } from "../../domain/stores/UserStore";
+import { useAtom } from "jotai";
 
 type ProductProps = {
     product: Product,
@@ -7,7 +9,6 @@ type ProductProps = {
 }
 
 type CardProps = {
-    canClaim:boolean,
     cost: number
 }
 const ProductItem = ({product, canClaim}: ProductProps) => {
@@ -17,11 +18,11 @@ const ProductItem = ({product, canClaim}: ProductProps) => {
                 className={`group grid grid-rows-[36px_200px_auto] grid-cols-1
                 bg-white outline outline-[6px]
                 outline-transparent shadow-lg shadow-cyan-100/10 rounded-xl 
-                px-5 md:px-7 py-2 md:py-4 font-normal 
+                px-3 gap-1 py-2 md:py-4 font-normal 
                 transition-all duration-200 ease-out
-                ${canClaim ? ' hover:shadow-cyan-500/40 cursor-pointer hover:outline-white':''}
+                ${canClaim ? ' hover:shadow-cyan-500/40 hover:outline-white':''}
                 `}>
-                <CardInfo canClaim={canClaim} cost={product.cost}/>
+                <CardInfo cost={product.cost}/>
                 <div className="justify-center content-center relative">
                     <Image
                         alt={`${product.name} image.`}
@@ -30,7 +31,7 @@ const ProductItem = ({product, canClaim}: ProductProps) => {
                         objectFit="contain"
                         objectPosition="50% 50%"/>
                 </div>
-                <footer className="grid grid-rows-2 grid-cols-2 grid-flow-dense pt-6">
+                <footer className="grid grid-rows-2 grid-cols-2 grid-flow-dense pt-6 px-2">
                     <span className="text-sm  text-slate-400">{product.category}</span>
                     <div className="flex justify-end place-self-end gap-1">
                         <span className="text-sm leading-[17px] text-slate-600">{product.cost}</span>
@@ -53,26 +54,30 @@ const ProductItem = ({product, canClaim}: ProductProps) => {
     )
 }
 
-const CardInfo = ({canClaim, cost}: CardProps) => (
-    <header className="flex justify-end h-8 items-center">
-        { canClaim ? 
+const CardInfo = ({cost}: CardProps) => {
+    const [user] = useAtom(userAtom);
+    return (
+        <header className="flex justify-end h-8 items-center">
+        { user.points >= cost ? 
         (
-            <svg xmlns="http://www.w3.org/2000/svg" id="Outline"
-                className="fill-cyan-500 invisible group-hover:visible" 
-                viewBox="0 0 24 24" width="24" height="24">
-                    <circle cx="7" cy="22" r="2"/><circle cx="17" cy="22" r="2"/>
-                    <path d="M23,3H21V1a1,1,0,0,0-2,0V3H17a1,1,0,0,0,0,2h2V7a1,1,0,0,0,2,0V5h2a1,1,0,0,0,0-2Z"/>
-                    <path d="M21.771,9.726a.994.994,0,0,0-1.162.806A3,3,0,0,1,17.657,13H5.418l-.94-8H13a1,1,0,0,0,0-2H4.242L4.2,2.648A3,3,0,0,0,1.222,0H1A1,1,0,0,0,1,2h.222a1,1,0,0,1,.993.883l1.376,11.7A5,5,0,0,0,8.557,19H19a1,1,0,0,0,0-2H8.557a3,3,0,0,1-2.829-2H17.657a5,5,0,0,0,4.921-4.112A1,1,0,0,0,21.771,9.726Z"/>
-            </svg>) :
-        (
+            <div className="rounded-md flex flex-row items-center gap-1 px-3 py-2
+                bg-slate-50 border border-slate-200 hover:bg-indigo-700 hover:cursor-pointer
+                text-slate-500 fill-white hover:text-white
+                font-semibold transition-all ease-linear duration-100">
+                <span className="text-xs">Redeem</span>
+                
+            </div>
+            
+        ) : (
             <div className="flex items-center gap-1 transition-all ease-out font-semibold group-hover:scale-110 bg-cyan-50 rounded-md p-2">
-                <span className="text-xs text-slate-500">{`Needed points: ${cost}`}</span>
+                <span className="text-xs text-slate-500">{`Necessary points: ${cost - user.points}`}</span>
                 <div className="relative w-[18px] h-[18px]">
                     <Image alt="coin icon" src="/icons/coinN.svg" layout="fill" objectFit="cover"/>
                 </div>
             </div>
         )}
     </header>
-)
+    )
+}
 
 export default ProductItem

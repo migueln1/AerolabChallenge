@@ -27,6 +27,7 @@ enum Filter {
 }
 
 const productService = new ProductService();
+
 const productsAtom = atom(async () => 
     await productService.getProducts()
 )
@@ -68,5 +69,5 @@ export {
     currentFilterAtom, 
     productsSortedAtom, 
     productPagedAtom, 
-    productPaginationAtom 
+    productPaginationAtom
 }
