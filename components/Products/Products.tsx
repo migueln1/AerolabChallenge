@@ -1,7 +1,7 @@
 import { useAtom } from "jotai";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { paginationAtom } from "../../domain/stores/PaginationStore";
-import { productPagedAtom, productsAtom, productsLoadable, productsSortedAtom } from "../../domain/stores/ProductStore";
+import { productPagedAtom, productsAtom, productsSortedAtom } from "../../domain/stores/ProductStore";
 import PaginationControls from "../Common/PaginationControls";
 import FilterControls from "./FilterProducts";
 import ProductList from "./ProductList";
