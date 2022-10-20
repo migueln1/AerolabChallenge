@@ -14,7 +14,7 @@ const ProductList = ({productList}: ProductListProps) => {
             {productList.length > 0 && productList.map(p => {
                 const canClaim = canBeClaimed(p);
                 return(
-                    <ProductItem product={p} canClaim={canClaim}/>
+                    <ProductItem key={`product-${p._id}`} product={p} canClaim={canClaim}/>
                 )
             })}
         </div>

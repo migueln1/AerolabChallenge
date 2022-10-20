@@ -15,7 +15,7 @@ const PaginationControls = ({ itemsLength }: PaginationProps) => {
     useEffect(() => {
         setCanNext(pagination.page! < pages)
         setCanBack(pagination.page! > 1 )
-    },[pagination])
+    },[pagination, pages])
     const goNext = () => {
         if(!canNext) return
         setProductPage({page: pagination.page! + 1})

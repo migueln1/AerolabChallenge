@@ -13,7 +13,7 @@ type CardProps = {
 const ProductItem = ({product, canClaim}: ProductProps) => {
     return(
         <div className={`relative`}>
-            <section key={`product-${product._id}`} 
+            <section 
                 className={`group grid grid-rows-[36px_200px_auto] grid-cols-1
                 bg-white outline outline-[6px]
                 outline-transparent shadow-lg shadow-cyan-100/10 rounded-xl 
