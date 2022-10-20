@@ -1,10 +1,9 @@
 import { useAtom } from "jotai";
-import { Suspense, useEffect } from "react";
+import { useEffect } from "react";
 import { paginationAtom } from "../../domain/stores/PaginationStore";
 import { productPagedAtom, productsAtom, productsSortedAtom } from "../../domain/stores/ProductStore";
 import PaginationControls from "../Common/PaginationControls";
 import FilterControls from "./FilterProducts";
-import Preloader from "./Preloader";
 import ProductList from "./ProductList";
 
 const Products = () => {

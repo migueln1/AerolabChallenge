@@ -1,8 +1,4 @@
 import { atom } from "jotai";
-import { atomWithObservable } from "jotai/utils";
-import { BehaviorSubject } from "rxjs";
-
-import { Product, productsAtom, productsSortedAtom } from "./ProductStore";
 
 enum Filter {
     Recent,

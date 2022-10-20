@@ -19,17 +19,13 @@ type ProductPagination = {
     page?: number,
     rowsPerPage?: number
 }
-const pagInitialValues = { page:1, rowsPerPage:16 }
+
 enum Filter {
     Recent,
     LowestPrice,
     HighestPrice
 }
-// const paginationAtom = atom(pagInitialValues, (get, set, payload: ProductPagination) => {
-//     const current = get(paginationAtom);
-//     const newe= {...current, ...payload};
-//     set(paginationAtom, newe)
-// })
+
 const productService = new ProductService();
 const productsAtom = atom(async () => 
     await productService.getProducts()

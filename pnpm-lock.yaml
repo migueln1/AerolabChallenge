@@ -13,7 +13,6 @@ specifiers:
   postcss: ^8.4.17
   react: 18.2.0
   react-dom: 18.2.0
-  rxjs: ^7.5.7
   tailwindcss: ^3.1.8
   typescript: 4.8.4
 
@@ -22,7 +21,6 @@ dependencies:
   next: 12.3.1_biqbaboplfbrettd7655fr4n2y
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
-  rxjs: 7.5.7
 
 devDependencies:
   '@playwright/test': 1.27.1
@@ -1961,12 +1959,6 @@ packages:
     dependencies:
       queue-microtask: 1.2.3
     dev: true
-
-  /rxjs/7.5.7:
-    resolution: {integrity: sha512-z9MzKh/UcOqB3i20H6rtrlaE/CgjLOvheWK/9ILrbhROGTweAi1BaFsTT9FbwZi5Trr1qNRs+MXkhmR06awzQA==}
-    dependencies:
-      tslib: 2.4.0
-    dev: false
 
   /safe-regex-test/1.0.0:
     resolution: {integrity: sha512-JBUUzyOgEwXQY1NuPtvcj/qcBDbDmEvWufhlnXZIm75DEHp+afM1r1ujJpJsV/gSM4t59tpDyPi1sd6ZaPFfsA==}
