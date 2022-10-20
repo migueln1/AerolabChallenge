@@ -58,8 +58,19 @@ const productPaginationAtom = atom(null, (get, set, payload: ProductPagination) 
     set(productPagedAtom, [..._products].slice((payload.page!-1) * pag.rowsPerPage!, payload.page! * pag.rowsPerPage!))
     set(paginationAtom, payload)
 })
+
 const productPagedAtom = atom([], (get, set, payload) => {
     set(productPagedAtom, payload)
 })
 
-export { productsAtom, currentFilterAtom, productsSortedAtom, productPagedAtom, productPaginationAtom }
+const currentActiveProduct = atom([], (get, set, payload) => {
+    set(currentActiveProduct, payload)
+})
+
+export { 
+    productsAtom, 
+    currentFilterAtom, 
+    productsSortedAtom, 
+    productPagedAtom, 
+    productPaginationAtom 
+}
