@@ -33,8 +33,10 @@ const ProductItem = ({product, canClaim}: ProductProps) => {
                 <footer className="grid grid-rows-2 grid-cols-2 grid-flow-dense pt-6">
                     <span className="text-sm  text-slate-400">{product.category}</span>
                     <div className="flex justify-end place-self-end gap-1">
-                        <span className="text-sm leading-3 text-slate-600">{product.cost}</span>
-                        <Image className={`${!canClaim ? 'grayscale':''}`} src="/icons/coinN.svg" width={18} height={18} alt="coin image"/>
+                        <span className="text-sm leading-[17px] text-slate-600">{product.cost}</span>
+                        <div className="relative w-[18px] h-[18px]">
+                            <Image alt="coin icon" src="/icons/coinN.svg" layout="fill" objectFit="cover"/>
+                        </div>
                     </div>
                     <div className="col-span-2">
                         <span className="text-slate-600 text-[.9rem] font-semibold">{product.name}</span>
@@ -64,8 +66,10 @@ const CardInfo = ({canClaim, cost}: CardProps) => (
             </svg>) :
         (
             <div className="flex items-center gap-1 transition-all ease-out font-semibold group-hover:scale-110 bg-cyan-50 rounded-md p-2">
-                <span className="text-xs leading-3 text-slate-500">{`Needed points: ${cost}`}</span>
-                <Image src="/icons/coinN.svg" width={18} height={18} alt="coin image"/>
+                <span className="text-xs text-slate-500">{`Needed points: ${cost}`}</span>
+                <div className="relative w-[18px] h-[18px]">
+                    <Image alt="coin icon" src="/icons/coinN.svg" layout="fill" objectFit="cover"/>
+                </div>
             </div>
         )}
     </header>
